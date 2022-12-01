@@ -1,0 +1,19 @@
+{
+  "name": "tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "article.test.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-jest": "^29.2.2",
+    "jest": "^29.2.2"
+  },
+  "dependencies": {
+    "node-fetch": "^3.2.10"
+  }
+}
