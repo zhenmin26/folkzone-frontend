@@ -44,6 +44,7 @@ export default class Friend extends Component {
     };
     // // return username
     fetch(url(`/following/${delUser}`), {
+      credentials: "include",
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),

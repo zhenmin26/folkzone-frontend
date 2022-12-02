@@ -12,8 +12,8 @@ import {
 import { Navigate } from "react-router-dom";
 // import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import store from "../../../redux/store";
-const url = (path) => `https://folk-zone.herokuapp.com${path}`;
-// const url = (path) => `http://localhost:3000${path}`;
+// const url = (path) => `https://folk-zone.herokuapp.com${path}`;
+const url = (path) => `http://localhost:3000${path}`;
 
 export class Login extends Component {
   constructor(props) {
@@ -205,6 +205,18 @@ export class Login extends Component {
               </Button>
             </Grid>
           </Box>
+          <Grid>
+            <Button
+              type="oauth"
+              variant="contained"
+              fullWidth
+              onClick={() => {
+                console.log("google login");
+              }}
+            >
+              Google Login
+            </Button>
+          </Grid>
         </Container>
       );
     }

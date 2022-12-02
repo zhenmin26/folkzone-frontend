@@ -128,9 +128,6 @@ export default class User extends Component {
                   variant="text"
                   item
                   xs={6}
-                  // direction="column"
-                  // justifyContent="center"
-                  // alignItems="flex-end"
                   size="large"
                 >
                   Update

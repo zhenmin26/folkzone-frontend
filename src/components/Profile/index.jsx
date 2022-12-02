@@ -28,16 +28,9 @@ export class Profile extends Component {
     super(props);
     this.state = {
       login: store.getState().userReducer.login,
-      username:
-        // JSON.parse(localStorage.getItem("curUser")).username ||
-        // JSON.parse(localStorage.getItem("curUser")).username || "Harry",
-        localStorage.getItem("username"),
-      email:
-        // JSON.parse(localStorage.getItem("curUser")).email ||
-        // JSON.parse(localStorage.getItem("curUser")).email ||
-        // "harry@hogwards.com",
-        // store.getState().userReducer.curUser.email,
-        "",
+      username: localStorage.getItem("username"),
+      displayName: "",
+      email: "",
       phone: "",
       zipcode: "",
       password: "",
@@ -94,6 +87,20 @@ export class Profile extends Component {
       .then((res) => {
         this.setState({
           phone: res.phone,
+        });
+      });
+    fetch(url(`/avatar/${username}`), {
+      credentials: "include",
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        // console.log(res);
+        this.setState({
+          avatar: res.avatars[0].avatar,
         });
       });
   }
@@ -247,26 +254,37 @@ export class Profile extends Component {
   }
 
   handleImageChange(event) {
-    // console.log("image upload");
-    // console.log(event.target.files[0]);
-    const avatar = event.target.files[0];
+    event.preventDefault();
+    let reader = new FileReader();
+    reader.onloadend = () => {
+      this.preview = reader.result;
+      this.forceUpdate();
+    };
+    // console.log(event.target.files.length);
+    if (event.target.files.length !== 0) {
+      this.file = event.target.files[0];
+      // console.log(this.file);
+      reader.readAsDataURL(this.file);
+    }
+  }
 
+  handleAvatarUpload() {
     let payload = new FormData();
-    payload.append("image", avatar);
-    
+    payload.append("image", this.file);
+
     fetch(url("/avatar"), {
       credentials: "include",
-      // mode: "no-cors",
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      credentials: 'include',
-      body: payload
+      credentials: "include",
+      body: payload,
     })
-      // .then((res) => {
-      //   return res.json();
-      // })
       .then((res) => {
-        console.log(res);
+        return res.json();
+      })
+      .then((res) => {
+        this.setState({
+          avatar: res.avatar,
+        });
       });
   }
 
@@ -298,13 +316,15 @@ export class Profile extends Component {
                   variant="outlined"
                   aria-label="upload picture"
                   component="label"
-                  // onChange={this.handleUpload.bind(this)}
                 >
                   <input
                     type="file"
                     accept="image/*"
                     onChange={(e) => this.handleImageChange(e)}
                   />
+                </Button>
+                <Button onClick={this.handleAvatarUpload.bind(this)}>
+                  Upload
                 </Button>
                 {/* </Box> */}
               </Grid>
@@ -324,6 +344,9 @@ export class Profile extends Component {
                 <Typography sx={{ fontSize: 25 }} color="text.secondary">
                   Username: {this.state.username}
                 </Typography>
+                {/* <Typography sx={{ fontSize: 25 }} color="text.secondary">
+                  Display name: {this.state.displayName}
+                </Typography> */}
                 <Typography sx={{ fontSize: 25 }} color="text.secondary">
                   Email: {this.state.email}
                 </Typography>
@@ -333,9 +356,9 @@ export class Profile extends Component {
                 <Typography sx={{ fontSize: 25 }} color="text.secondary">
                   Zipcode: {this.state.zipcode}
                 </Typography>
-                <Typography sx={{ fontSize: 25 }} color="text.secondary">
+                {/* <Typography sx={{ fontSize: 25 }} color="text.secondary">
                   Password: {this.state.password.replace(/./g, "*")}
-                </Typography>
+                </Typography> */}
               </CardContent>
             </Grid>
             {/* Update info */}
@@ -348,7 +371,7 @@ export class Profile extends Component {
                 sx={{ mt: 3 }}
               >
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  {/* <Grid item xs={12}>
                     <TextField
                       name="name"
                       // required
@@ -358,7 +381,7 @@ export class Profile extends Component {
                       autoFocus
                       fullWidth
                     />
-                  </Grid>
+                  </Grid> */}
                   <Grid item xs={12}>
                     <TextField
                       // required
