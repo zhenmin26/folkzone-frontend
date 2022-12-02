@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { useEffect } from "react";
 import {
   Box,
   TextField,
@@ -95,59 +96,6 @@ export class Login extends Component {
         }
         // this.setState({ login: true })
       });
-    // store.getState().userReducer.allUsers.forEach((user) => {
-    //   if (data.get("username") === "") {
-    //     this.setState({ usernameErrorText: "Required field" });
-    //     return;
-    //   }
-    // if (
-    //   user.username === data.get("username") &&
-    //   data.get("login_password") == user.address.street
-    // ) {
-    //   // console.log("Login successfully");
-    //   // localStorage.setItem("curUser", JSON.stringify(user));
-    //   // get current user
-    //   store.dispatch({ type: "getUser", data: user });
-    //   // get friend users
-    //   const curId = user.id;
-    //   let friendIds = new Array(3);
-    //   let friends = new Array(3);
-    //   for (var i = 1; i <= 3; i++) {
-    //     if (curId + i == 10) {
-    //       friendIds[i - 1] = 10;
-    //       friends[i-1] = store.getState().userReducer.allUsers[9]
-    //     } else {
-    //       friendIds[i - 1] = (curId + i) % 10;
-    //       friends[i-1] = store.getState().userReducer.allUsers[(curId + i) % 10 - 1]
-    //     }
-    //   }
-    //   let allPosts = store.getState().postReducer.allPosts;
-    //   let posts;
-    //   for (var j = 0; j < allPosts.length; j += 10) {
-    //     if (allPosts[j].userId === user.id) {
-    //       posts = allPosts.slice(j, j + 10);
-    //       posts.forEach((post) => {
-    //         post.date = this.randomDate(new Date(2012, 0, 1), new Date());
-    //         post.username = user.username;
-    //       });
-    //       // console.log(posts);
-    //       // sort posts by date
-    //       posts.sort(function (a, b) {
-    //         return new Date(b.date) - new Date(a.date);
-    //       });
-    //       store.dispatch({ type: "getPosts", data: posts });
-    //       store.dispatch({type: "getpostsInUser", data: posts})
-    //       break;
-    //     }
-    //   }
-    //   store.dispatch({ type: "getFriendUserId", data: friendIds });
-    //   store.dispatch({ type: "getFriends", data: friends });
-    //   this.setState({ login: true });
-    //   store.dispatch({ type: "changeLoginStatus", data: true})
-    // } else {
-    //   this.setState({ passwordErrorText: "Wrong password" });
-    // }
-    // });
   }
 
   render() {
@@ -205,7 +153,7 @@ export class Login extends Component {
               </Button>
             </Grid>
           </Box>
-          <Grid>
+          {/* <Grid>
             <Button
               type="oauth"
               variant="contained"
@@ -216,9 +164,30 @@ export class Login extends Component {
             >
               Google Login
             </Button>
-          </Grid>
+          </Grid> */}
+          {/* <Google /> */}
         </Container>
       );
     }
   }
+}
+
+export function Google(){
+  function handleCallbackResponse(response) {
+    console.log("Encoded JWT ID token", response.credential)
+  }
+  useEffect(()=>{
+    // gapi.auth2.init({
+    //   client_id: "365895986678-t08reg210e1qags0j21k4d51g6jt62l4.apps.googleusercontent.com",
+    //   callback: handleCallbackResponse
+    // })
+    // google.accounts.id.renderButton(
+    //   document.getElementById("signIdDiv"),
+    //   {theme: "outline", size: "large"}
+    // )
+  }, [])
+  return (
+    <div id="signIdDiv">
+    </div>
+  )
 }

@@ -12,9 +12,11 @@ function App() {
           <Route path="/main" element={<Main />}></Route>
           <Route path="/profile" element={<Profile />}></Route>
         </Routes>
+        
       </BrowserRouter>
     </div>
   );
 }
+
 
 export default App;

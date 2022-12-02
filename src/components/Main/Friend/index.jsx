@@ -16,6 +16,7 @@ export default class Friend extends Component {
       // followers: [],
     };
     this.getHeaderline();
+    this.getAvatar();
   }
 
   getHeaderline() {
@@ -32,6 +33,24 @@ export default class Friend extends Component {
         // console.log(res);
         this.setState({
           status: res.headline,
+        });
+      });
+  }
+
+  getAvatar() {
+    const username = this.props.username;
+    fetch(url(`/avatar/${username}`), {
+      credentials: "include",
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        // console.log(res);
+        this.setState({
+          avatar: res.avatars[0].avatar,
         });
       });
   }

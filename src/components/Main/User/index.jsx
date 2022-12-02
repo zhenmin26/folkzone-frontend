@@ -21,8 +21,10 @@ export default class User extends Component {
     this.state = {
       username: localStorage.getItem("username"),
       status: "",
+      avatar: ""
     };
-    this.getHeaderline()
+    this.getHeaderline();
+    this.getAvatar();
   }
 
   getHeaderline() {
@@ -39,6 +41,24 @@ export default class User extends Component {
         // console.log(res);
         this.setState({
           status: res.headline,
+        });
+      });
+  }
+
+  getAvatar() {
+    const username = localStorage.getItem("username");
+    fetch(url(`/avatar/${username}`), {
+      credentials: "include",
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          avatar: res.avatars[0].avatar,
         });
       });
   }
@@ -87,7 +107,7 @@ export default class User extends Component {
               alignItems="center"
             >
               <Grid>
-                <Avatar alt={this.state.username} src={avatarPic} />
+                <Avatar src={this.state.avatar} />
               </Grid>
               <Grid>
                 <Typography sx={{ fontSize: 25 }} color="text.first">
